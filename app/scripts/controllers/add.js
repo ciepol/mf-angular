@@ -40,7 +40,9 @@ angular.module('mfAngularApp').controller('AddCtrl', ['$scope', '$http', '$route
         angular.extend(widget, prototype.params);
         console.log(widget);
         DataService.appendWidget(widget, containerId, position);
+        console.log('xx');
         $location.path('edit/' + $routeParams.url);
+        console.log('xx');
     }
 
 

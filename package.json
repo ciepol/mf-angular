@@ -2,6 +2,7 @@
   "name": "mfangular",
   "version": "0.0.0",
   "dependencies": {
+    "connect-modrewrite": "^0.7.4",
     "express": "^4.1.1",
     "gzippo": "^0.2.0",
     "morgan": "^1.0.1"

@@ -114,7 +114,8 @@ app.service('DataService', ['$rootScope','$http', '$routeParams', 'ExtrasService
             //remove from all pages
             var len = this.site.pages.length;
             console.log('removing container by guid');
-            for (page in this.site.pages) {
+            console.log(this.site.pages);
+            for (var page in this.site.pages) {
                 console.log(page);
                 console.log(this.site.pages[page].containers);
                 var pos = this.site.pages[page].containers.indexOf(guid);
@@ -123,7 +124,6 @@ app.service('DataService', ['$rootScope','$http', '$routeParams', 'ExtrasService
                 }
                 console.log(this.site.pages[page].containers);
             }
-
 
             $rootScope.$broadcast('site.update');
         },
