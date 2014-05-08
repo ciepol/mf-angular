@@ -1,1 +1,0 @@
-"use strict";angular.module("mfAngularApp",["ui.bootstrap"]),angular.module("mfAngularApp").controller("MainCtrl",["$scope",function(a){a.awesomeThings=["HTML5 Boilerplate","AngularJS","Karma"]}]);

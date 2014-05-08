@@ -1,0 +1,1 @@
+<div class="container container-{{container.type}}"><div ng-if="editorMode" ng-include="'/views/containermenu.html'"></div><widget ng-repeat="widget in container.widgets"></widget>{{index}} <a href="index.html#/add/{{page}}/{{$index}}/0" class="btn-add-widget btn btn-primary" ng-if="!container.widgets.length">Add widgets!</a></div>
