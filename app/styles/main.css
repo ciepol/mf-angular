@@ -1,79 +1,87 @@
-/* Space out content a bit */
-body {
-  padding-top: 20px;
-  padding-bottom: 20px;
+a {
+    cursor: pointer;
 }
 
-/* Everything but the jumbotron gets side spacing for mobile first views */
-.header,
-.marketing,
-.footer {
-  padding-left: 15px;
-  padding-right: 15px;
+#main {
+    width: 958px;
+    margin: 0 auto;
 }
 
-/* Custom page header */
-.header {
-  border-bottom: 1px solid #e5e5e5;
-}
-/* Make the masthead heading the same height as the navigation */
-.header h3 {
-  margin-top: 0;
-  margin-bottom: 0;
-  line-height: 40px;
-  padding-bottom: 19px;
+.container {
+    position: relative;
+    width: auto;
+    margin: 0;
+    padding: 5px;
+    background: #eee;
+    border: 1px solid #333;
 }
 
-/* Custom page footer */
-.footer {
-  padding-top: 19px;
-  color: #777;
-  border-top: 1px solid #e5e5e5;
+.container-sidebar {
+    float:left;
+    width: 30%;
+    background: #ddd;
 }
 
-/* Customize container */
-@media (min-width: 768px) {
-  .container {
-    max-width: 730px;
-  }
-}
-.container-narrow > hr {
-  margin: 30px 0;
+.container-body {
+    float: right;
+    width: 70%;
+    background: #e5e5e5;
 }
 
-/* Main marketing message and sign up button */
-.jumbotron {
-  text-align: center;
-  border-bottom: 1px solid #e5e5e5;
-}
-.jumbotron .btn {
-  font-size: 21px;
-  padding: 14px 24px;
+.container-footer {
+    clear: both;
 }
 
-/* Supporting marketing content */
-.marketing {
-  margin: 40px 0;
-}
-.marketing p + h4 {
-  margin-top: 28px;
+.widget {
+    position: relative;
+    margin: 2px 0;
+    padding: 2px;
+    border: 1px dotted #bbb;
 }
 
-/* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
-  /* Remove the padding we set earlier */
-  .header,
-  .marketing,
-  .footer {
-    padding-left: 0;
-    padding-right: 0;
-  }
-  /* Space out the masthead */
-  .header {
-    margin-bottom: 30px;
-  }
-  /* Remove the bottom border on the jumbotron for visual effect */
-  .jumbotron {
-    border-bottom: 0;
-  }
+.menu {
+    position: absolute;
+    top: auto;
+    left: auto;
+    bottom: 0;
+    right: 0;
+
+    width: 24px;
+    height: 24px;
+    text-indent: -29999px;
+    background: #fff url("http://mamfirme.pl/gfx/icons/preferences-system.png") no-repeat center center;
+    overflow: hidden;
+    z-index: 5;
+}
+
+.menu:hover {
+    width: auto;
+    height: auto;
+    text-indent: 0;
+    background: #fff;
+    z-index: 6;
+}
+
+.menu > * {
+    display: none;
+}
+
+.menu:hover > * {
+    display: block;
+}
+
+.menu > hr {
+    margin: 0;
+}
+
+.widget-menu {
+    top: 0;
+    left: 0;
+    right: auto;
+    bottom: auto;
+    z-index: 4;
+}
+
+.widget-menu:hover {
+    z-index: 6;
 }

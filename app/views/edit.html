@@ -1,0 +1,18 @@
+<nav>
+    Top belt menus//page settings<br />
+
+    <button ng-click="addContainer()" class="btn btn-primary">Add container</button>
+    <a ng-click="saveSite()">Save</a>
+    <a ng-click="loadSite()">Load</a>
+    <a href="/{{page}}">Preview</a>
+</nav>
+<div id="main">
+    {{page}}
+    <container ng-repeat="(containerIndex, container) in containers"></container>
+</div>
+<div ng-if="addMode" class="ngdialog ngdialog-theme-default ngdialog-theme-custom">
+    <div class="ngdialog-overlay"></div>
+    <div class="ngdialog-content" ng-include="'/views/add-' + addType + '-dialog.html'">
+        <div class="ngdialog-close"></div>
+    </div>
+</div>
