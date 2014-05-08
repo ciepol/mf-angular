@@ -1,0 +1,24 @@
+[
+    {
+        "type": "text",
+        "langs": {
+            "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitatioi jihjihn ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        }
+    },
+    {
+        "type": "image",
+        "params": {
+            "link": "http://mamfirme.pl",
+            "src": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash3/t1.0-1/c14.14.172.172/s160x160/63194_138497859541098_5778550_n.jpg"
+        },
+        "langs": {
+            "alt": "Opis obrazka."
+        }
+    },
+    {
+        "type": "button",
+        "langs": {
+            "content": "Tutaj jest guzik."
+        }
+    }
+]

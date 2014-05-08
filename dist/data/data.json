@@ -1,0 +1,143 @@
+[
+    {
+        "css" : "",
+        "pages": {
+            "home": {
+                "name": "Strona domowa",
+                "url": "home",
+                "containers": [
+                    "d6f03932-95d9-4986-850a-e30012d370aa",
+                    "cfcdb877-1dd1-43a0-bb6d-c3d9e5494ab3",
+                    "dc924376-1ff7-4548-958c-ab77e6fa1de5"
+                ]
+            },
+            "strona-numer-1": {
+                "name": "Strona numer 1",
+                "url": "strona-numer-1",
+                "containers": [
+                    "d6f03932-95d9-4986-850a-e30012d370aa",
+                    "cfcdb877-1dd1-43a0-bb6d-c3d9e5494ab3",
+                    "6869db99-6e3c-4095-990b-1309facfebea"
+                ]
+            },
+            "cennik": {
+                "name": "Cennik",
+                "url": "cennik",
+                "containers": [
+                    "d6f03932-95d9-4986-850a-e30012d370aa",
+                    "cfcdb877-1dd1-43a0-bb6d-c3d9e5494ab3",
+                    "5ecfe215-8df6-4ee4-9696-f8e99a813465"
+                ]
+            }
+        },
+        "containers" : {
+            "d6f03932-95d9-4986-850a-e30012d370aa": {
+                "guid": "d6f03932-95d9-4986-850a-e30012d370aa",
+                "layout": true,
+                "widgets": [
+                    {
+                        "type": "menu",
+                        "pl_PL": {
+                            "content": "Tutaj będzie menu?"
+                        },
+                        "en_GB": {
+                            "content": "Here will be menu?"
+                        }
+                    }
+                ]
+            },
+            "cfcdb877-1dd1-43a0-bb6d-c3d9e5494ab3": {
+                "guid": "cfcdb877-1dd1-43a0-bb6d-c3d9e5494ab3",
+                "layout": true,
+                "widgets": [
+                    {
+                        "type": "text",
+                        "pl_PL": {
+                            "content": "Lorem ipsum"
+                        },
+                        "en_GB": {
+                            "content": "Lorem ipsum"
+                        }
+                    },
+                    {
+                        "type": "image",
+                        "src": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash3/t1.0-1/c14.14.172.172/s160x160/63194_138497859541098_5778550_n.jpg",
+                        "pl_PL": {
+                            "alt": "Obrazek bez linka"
+                        },
+                        "en_GB": {
+                            "alt": "Picture with no anchor"
+                        }
+
+                    },
+                    {
+                        "type": "image",
+                        "link": "http://mamfirme.pl",
+                        "src": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash3/t1.0-1/c14.14.172.172/s160x160/63194_138497859541098_5778550_n.jpg",
+                        "pl_PL": {
+                            "alt": "Znów obrazek"
+                        },
+                        "en_GB": {
+                            "alt": "Picture again"
+                        }
+
+                    },
+                    {
+                        "type": "button",
+                        "pl_PL": {
+                            "content": "Guzik jaki."
+                        },
+                        "en_GB": {
+                            "content": "Some button."
+                        }
+                    }
+                ]
+            },
+            "dc924376-1ff7-4548-958c-ab77e6fa1de5": {
+                "guid": "dc924376-1ff7-4548-958c-ab77e6fa1de5",
+                "layout": false,
+                "widgets": [
+                    {
+                        "type": "text",
+                        "pl_PL": {
+                            "content": "Tekst na stronie domowej"
+                        },
+                        "en_GB": {
+                            "content": "Text on homepage"
+                        }
+                    }
+                ]
+            },
+            "6869db99-6e3c-4095-990b-1309facfebea": {
+                "guid": "6869db99-6e3c-4095-990b-1309facfebea",
+                "layout": false,
+                "widgets": [
+                    {
+                        "type": "text",
+                        "pl_PL": {
+                            "content": "Tekst na stronie numero uno"
+                        },
+                        "en_GB": {
+                            "content": "Text on numero uno page"
+                        }
+                    }
+                ]
+            },
+            "5ecfe215-8df6-4ee4-9696-f8e99a813465": {
+                "guid": "5ecfe215-8df6-4ee4-9696-f8e99a813465",
+                "layout": false,
+                "widgets": [
+                    {
+                        "type": "text",
+                        "pl_PL": {
+                            "content": "Zawartość cennika"
+                        },
+                        "en_GB": {
+                            "content": "Price list content"
+                        }
+                    }
+                ]
+            }
+        }
+    }
+]
