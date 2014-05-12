@@ -20,5 +20,18 @@
         "langs": {
             "content": "Tutaj jest guzik."
         }
+    },
+    {
+        "type": "menu",
+        "params": {
+            "orientation": "horizontal",
+            "dropdown": true
+        }
+    },
+    {
+        "type": "submenu",
+        "params": {
+            "orientation": "horizontal"
+        }
     }
 ]

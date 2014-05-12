@@ -43,10 +43,12 @@ app.service('ExtrasService', ['$rootScope', function($rootScope) {
 }]);
 
 
-app.service('DataService', ['$rootScope','$http', '$routeParams', 'ExtrasService', function($rootScope, $http, $routeParams, ExtrasService) {
+app.service('DataService', ['$rootScope','$http', '$routeParams', '$q', '$window', 'ExtrasService', function($rootScope, $http, $routeParams, $q, $window, ExtrasService) {
+    var self = this;
     var dataService = {
         site: null,
         availableWidgets: null,
+        cached: false,
         getAvailableWidgets: function() {
             /* to current page */
             return this.availableWidgets;
@@ -56,16 +58,30 @@ app.service('DataService', ['$rootScope','$http', '$routeParams', 'ExtrasService
         },
         saveSite: function() {
             localStorage["MF"] = angular.toJson(this.site, true);
+            localStorage.removeItem("MF-CACHE");
         },
         loadSite: function() {
             this.site = angular.fromJson(localStorage["MF"]);
             $rootScope.$broadcast('site.update');
         },
-        getContainers: function() {
-            /* to current page */
-            var page = $routeParams.url;
+        loadCache: function() {
+            this.site = angular.fromJson(localStorage["MF-CACHE"]);
+            dataService.cached = false;
+            $rootScope.$broadcast('site.update');
+        },
+        setCached: function(bool) {
+            this.cached = bool;
+        },
+        getSite: function() {
+            return this.site ? this.site : [];
+        },
+        getPages: function() {
+            return this.site ? this.site.pages : [];
+        },
+        getContainers: function(page) {
+            var page = page || $routeParams.url; /* to current page if not set */
 
-            if (page && this.site) {
+            if (this.site) {
                 var result = [];
                 var containersIds = this.site.pages[page] ? this.site.pages[page].containers : this.site.pages.home.containers;
 
@@ -95,13 +111,15 @@ app.service('DataService', ['$rootScope','$http', '$routeParams', 'ExtrasService
                 console.log('container added');
                 console.log(this.site.pages[page].containers);
                 console.log('*************');
-                $rootScope.$broadcast('site.update');
+                //$rootScope.$broadcast('site.update');
+                self.updateAndBroadcast();
             } else {
                 console.log(page);
                 console.error('"page" parameter error');
             }
         },
         addContainer: function(position) {
+            var position = position || this.site.pages[$routeParams.url].containers.length; //if no position then at the end
             var guid = ExtrasService.guid();
             this.site.containers[guid] = {
                 "guid": guid,
@@ -125,7 +143,8 @@ app.service('DataService', ['$rootScope','$http', '$routeParams', 'ExtrasService
                 console.log(this.site.pages[page].containers);
             }
 
-            $rootScope.$broadcast('site.update');
+            //$rootScope.$broadcast('site.update');
+            self.updateAndBroadcast();
         },
         removeContainer: function(position) {
             //remove from all pages
@@ -147,33 +166,93 @@ app.service('DataService', ['$rootScope','$http', '$routeParams', 'ExtrasService
             }
 
             this.site.containers[guid].widgets.splice(position, 0, widget);
-            $rootScope.$broadcast('site.update');
+            //$rootScope.$broadcast('site.update');
+            self.updateAndBroadcast();
         },
         removeWidget: function(containerIndex, widgetIndex) {
             var page = $routeParams.url;
 
             var guid = this.getContainerGuid(page, containerIndex);
             this.site.containers[guid].widgets.splice(widgetIndex, 1);
-            $rootScope.$broadcast('site.update');
+            //$rootScope.$broadcast('site.update');
+            self.updateAndBroadcast();
         }
     };
 
-    $http({method: 'GET', url: 'data/data.json'}).
-        success(function(data, status, headers, config) {
-            dataService.site = data[0];
-            console.log('----------------------uu---------');
-            $rootScope.$broadcast('site.update');
-        });
+    this.updateAndBroadcast = function() {
+        localStorage["MF-CACHE"] = angular.toJson(dataService.site, true);
+        $rootScope.$broadcast('site.update');
+    }
 
-    $http({method: 'GET', url: 'data/widgets.json'}).
+    if (typeof localStorage['MF-CACHE'] !== 'undefined') {
+        console.log('cached site present');
+        dataService.cached = true;
+    }
+
+    if (typeof localStorage['MF'] === 'undefined') {
+        $http({method: 'GET', url: '/data/data.json'}).
+            success(function (data, status, headers, config) {
+                dataService.site = data[0];
+                console.log('site loaded from server');
+                console.log(dataService.site);
+                $rootScope.$broadcast('site.update');
+                $rootScope.$emit('site.update');
+            });
+    } else {
+        //by now localStorage is like server at production
+        console.log('site loaded from server [* but server is in localStorage :P]');
+        dataService.loadSite();
+    }
+
+
+
+    $http({method: 'GET', url: '/data/widgets.json'}).
         success(function(data, status, headers, config) {
-            dataService.availableWidgets = data[0];
+            dataService.availableWidgets = data;
             console.log('------------------------------g----------');
             console.log(dataService.availableWidgets);
-            $rootScope.$broadcast('xxx.update');
+            //$rootScope.$broadcast('xxx.update');
         });
 
+    $window.onbeforeunload = function() {
+        //LiveReload is being used on dev station and is annoying..., we don't want alert every 30 seconds
+        if (!LiveReload && typeof localStorage['MF-CACHE'] !== 'undefined') {
+            return function() { return 'Twoja stronia nie została zapisana, czy na pewno chcesz opuścić edytor?'};
+        } else {
+            return null;
+        }
+    };
+
     return dataService;
+}]);
+
+app.controller('SiteCtrl', ['$rootScope', '$scope', '$routeParams', 'DataService', function($rootScope, $scope, $routeParams, DataService) {
+    console.log('++++++++++++++++++start SITE ++++++++++++++++++');
+    $scope.site = DataService.site;
+    console.log($scope.site);
+    console.log($routeParams);
+
+    //$scope.title = DataService.site.pages[$routeParams.url].name;
+
+    $scope.$on('site.update', function(e) {
+        console.log('aaaaapdejjjjtjtjjtjtjtjtjttj');
+        //$scope.title = DataService.site.pages[$routeParams.url].name;
+        //console.log('title: ' + $scope.title);
+    });
+
+    $scope.$on('$routeChangeSuccess', function(event, current) {
+        if (typeof $routeParams.url !== 'undefined') {
+            $scope.title = DataService.site.pages[$routeParams.url].name;
+        } else {
+            console.log('routeParams undefined!!!!');
+        }
+    });
+
+    $scope.$watchCollection('$routeParams', function(newData, oldData) {
+        console.log(newData);
+
+    });
+    console.log('++++++++++++++++++end SITE ++++++++++++++++++');
 }]);
 
 app.directive('container', function() {
@@ -209,4 +288,14 @@ app.directive('dynamicStyle', function() {
         templateUrl: '/views/style.html',
         replace: true
     }
+});
+
+app.filter('inArray', function($filter){
+    return function(list, arrayFilter, element){
+        if(arrayFilter){
+            return $filter("filter")(list, function(listItem){
+                return arrayFilter.indexOf(listItem[element]) != -1;
+            });
+        }
+    };
 });

@@ -2,10 +2,10 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" ng-app="mfAngularApp"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" ng-app="mfAngularApp"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9" ng-app="mfAngularApp"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" ng-app="mfAngularApp"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" ng-app="mfAngularApp" ng-controller="SiteCtrl"> <!--<![endif]-->
     <head>
         <meta charset="utf-8">
-        <title></title>
+        <title ng-bind="title"></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
         <base href="/">
@@ -18,8 +18,8 @@
         <!-- build:css({.tmp,app}) styles/main.css -->
         <link rel="stylesheet" href="/styles/main.css">
         <!-- endbuild -->
-        <!--link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.1.6/ng-dialog.min.css" />
-        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.1.6/ng-dialog-theme-default.min.css" /-->
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.1.6/ng-dialog.min.css" />
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.1.6/ng-dialog-theme-default.min.css" />
 
         <style dynamic-style css="cssVars"></style>
     </head>

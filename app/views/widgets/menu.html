@@ -1,1 +1,7 @@
-menu zaślepka
+<nav class="menu menu-{{widget.orientation}}">
+    <ul>
+        <li ng-repeat="page in pages">
+            <a href="{{editorMode ? '/edit' : ''}}/{{page.url}}">{{page.name}}</a>
+        </li>
+    </ul>
+</nav>

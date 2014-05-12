@@ -1,5 +1,5 @@
-<div class="menu container-menu">
-    <a href="/add/{{page}}/{{$index}}/{{container.widgets.length}}" class="btn-add-container btn btn-success">Add widget!</a>
+<div class="editor-menu container-menu">
+    <a href="/add/{{page}}/{{$index}}/{{site.containers[containerGuid].widgets.length}}" class="btn-add-container btn btn-success">Add widget!</a>
     <hr />
     <button class="btn-remove-container btn btn-danger" ng-click="removeContainer($index)">Remove container {{$index}}</button>
 </div>

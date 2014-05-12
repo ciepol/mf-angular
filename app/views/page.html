@@ -1,4 +1,12 @@
-<a href="/edit/{{page}}" id="edit_mode_switch" title="Przejdź do trybu edycji"></a>
+<a href="/edit/{{currentPage}}" id="edit_mode_switch" title="Przejdź do trybu edycji"></a>
 <div id="main">
-    <container ng-repeat="container in containers"></container>
+    <container ng-repeat="containerGuid in site.pages[currentPage].containers"></container>
+</div>
+
+<div id="load_spinner" ng-hide="loaded"><span>LOADING...</span></div>
+<div ng-if="cached" id="dialog_cached" class="ngdialog ngdialog-theme-default ngdialog-theme-custom">
+    <div class="ngdialog-overlay"></div>
+    <div class="ngdialog-content" ng-include="'/views/dialogs/cached.html'">
+        <div class="ngdialog-close"></div>
+    </div>
 </div>

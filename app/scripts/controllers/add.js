@@ -1,24 +1,22 @@
 'use strict';
 
 angular.module('mfAngularApp').controller('AddCtrl', ['$scope', '$http', '$routeParams', '$location', 'DataService', 'ExtrasService', function ($scope, $http, $routeParams, $location, DataService, ExtrasService) {
-    $scope.page = $routeParams.url;
+    //$scope.currentPage = $routeParams.url;
     $scope.editorMode = true;
     $scope.addMode = true;
     $scope.addType = 'page';
-    $scope.containers = [];
+    $scope.pages = DataService.getPages();
+    //$scope.containers = DataService.getContainers();
     $scope.$on('site.update', function(e) {
         console.log('apdejt!!!');
         console.log(DataService.site);
-        $scope.containers = DataService.getContainers();
-    });
-    $scope.$watch('page', function() {
-        console.log('updejt - page chaned!');
-        $scope.containers = DataService.getContainers();
+        $scope.pages = DataService.getPages();
+        //$scope.containers = DataService.getContainers();
     });
 
     $scope.widgets = [];
 
-    $http({method: 'GET', url: 'data/widgets.json'}).
+    $http({method: 'GET', url: '/data/widgets.json'}).
         success(function(data, status, headers, config) {
             console.log('---http-----');
             $scope.widgets = data;
