@@ -2,6 +2,25 @@ a {
     cursor: pointer;
 }
 
+#edit_mode_switch {
+    position: fixed;
+    left: 16px;
+    top: 16px;
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.6) url(/images/preferences_system.png) center center;
+    z-index: 10;
+}
+
+#editor_top_belt {
+    background: url(/images/menu_bg.png) repeat-x;
+}
+
+#editor_top_belt > div {
+    width: 958px;
+    margin: 0 auto;
+}
+
 #main {
     width: 958px;
     margin: 0 auto;

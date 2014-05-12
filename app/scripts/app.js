@@ -199,3 +199,14 @@ app.directive('text', function() {
         replace: true
     }
 });
+
+app.directive('dynamicStyle', function() {
+    return {
+        restrict: 'A',
+        scope: {
+            css: '='
+        },
+        templateUrl: '/views/style.html',
+        replace: true
+    }
+});

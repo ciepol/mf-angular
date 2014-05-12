@@ -61,7 +61,7 @@
                     },
                     {
                         "type": "image",
-                        "src": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash3/t1.0-1/c14.14.172.172/s160x160/63194_138497859541098_5778550_n.jpg",
+                        "src": "/images/mf.jpg",
                         "pl_PL": {
                             "alt": "Obrazek bez linka"
                         },
@@ -73,7 +73,7 @@
                     {
                         "type": "image",
                         "link": "http://mamfirme.pl",
-                        "src": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash3/t1.0-1/c14.14.172.172/s160x160/63194_138497859541098_5778550_n.jpg",
+                        "src": "/images/mf.jpg",
                         "pl_PL": {
                             "alt": "Znów obrazek"
                         },
