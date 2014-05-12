@@ -4,7 +4,7 @@ angular.module('mfAngularApp').controller('PageCtrl', ['$scope', '$http', '$rout
     $scope.editorMode = $location.path().search(/\/edit\/|\/add\//) == 0;
     $scope.currentPage = $routeParams.url;
     $scope.lang = 'pl_PL';
-    $scope.site = DataService.site;
+    //$scope.site = DataService.site;
     $scope.pages = DataService.getPages();
     //$scope.containers = DataService.getContainers();
     $scope.cached = DataService.cached;
@@ -12,7 +12,7 @@ angular.module('mfAngularApp').controller('PageCtrl', ['$scope', '$http', '$rout
     $scope.loaded = 1//$scope.containers.length > 0;
 
     $scope.$on('site.update', function(e) {
-        console.log('apdejt!!!');
+        console.log('[PageCtrl] update check');
         console.log(DataService.site);
         //$scope.containers = DataService.getPages();
         //$scope.containers = DataService.getContainers();
@@ -46,6 +46,12 @@ angular.module('mfAngularApp').controller('PageCtrl', ['$scope', '$http', '$rout
         $('#dialog_cached').remove();
         DataService.setCached(false);
     };
+
+    $scope.$watchCollection('site', function(newData, oldData) {
+        console.log('watching for site changes: [oldData/newData] ----------------');
+
+        console.log('-------------------------------------------------------------------');
+    });
 
 
     /*$scope.$watchCollection('containers', function(newData, oldData) {

@@ -45,6 +45,10 @@ app.service('ExtrasService', ['$rootScope', function($rootScope) {
 
 app.service('DataService', ['$rootScope','$http', '$routeParams', '$q', '$window', 'ExtrasService', function($rootScope, $http, $routeParams, $q, $window, ExtrasService) {
     var self = this;
+    var _loadFromLocalStorage = function(name) {
+        var s = angular.fromJson(localStorage[name]);
+        return [s.pages, s.css, s.containers];
+    };
     var dataService = {
         site: null,
         availableWidgets: null,
@@ -61,13 +65,27 @@ app.service('DataService', ['$rootScope','$http', '$routeParams', '$q', '$window
             localStorage.removeItem("MF-CACHE");
         },
         loadSite: function() {
-            this.site = angular.fromJson(localStorage["MF"]);
-            $rootScope.$broadcast('site.update');
+            //console.log(this.site);
+            var s = _loadFromLocalStorage('MF');
+            //console.log(this.site);
+            if (!this.site) {this.site = {}}
+            this.site.pages = s[0];
+            this.site.css = s[1];
+            this.site.containers = s[2];
+            //console.log(this.site);
+
+            //this.site = angular.fromJson(localStorage["MF"]);
+            //$rootScope.$broadcast('site.update');
         },
         loadCache: function() {
-            this.site = angular.fromJson(localStorage["MF-CACHE"]);
+            var s = _loadFromLocalStorage('MF-CACHE');
+            if (!this.site) {this.site = {}}
+            this.site.pages = s[0];
+            this.site.css = s[1];
+            this.site.containers = s[2];
+            //this.site = angular.fromJson(localStorage["MF-CACHE"]);
             dataService.cached = false;
-            $rootScope.$broadcast('site.update');
+            //$rootScope.$broadcast('site.update');
         },
         setCached: function(bool) {
             this.cached = bool;
@@ -112,7 +130,7 @@ app.service('DataService', ['$rootScope','$http', '$routeParams', '$q', '$window
                 console.log(this.site.pages[page].containers);
                 console.log('*************');
                 //$rootScope.$broadcast('site.update');
-                self.updateAndBroadcast();
+                //self.updateAndBroadcast();
             } else {
                 console.log(page);
                 console.error('"page" parameter error');
@@ -235,7 +253,7 @@ app.controller('SiteCtrl', ['$rootScope', '$scope', '$routeParams', 'DataService
     //$scope.title = DataService.site.pages[$routeParams.url].name;
 
     $scope.$on('site.update', function(e) {
-        console.log('aaaaapdejjjjtjtjjtjtjtjtjttj');
+        console.log('[SiteCtrl] update check');
         //$scope.title = DataService.site.pages[$routeParams.url].name;
         //console.log('title: ' + $scope.title);
     });
