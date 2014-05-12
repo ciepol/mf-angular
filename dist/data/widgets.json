@@ -9,7 +9,7 @@
         "type": "image",
         "params": {
             "link": "http://mamfirme.pl",
-            "src": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash3/t1.0-1/c14.14.172.172/s160x160/63194_138497859541098_5778550_n.jpg"
+            "src": "/images/mf.jpg"
         },
         "langs": {
             "alt": "Opis obrazka."
@@ -19,6 +19,19 @@
         "type": "button",
         "langs": {
             "content": "Tutaj jest guzik."
+        }
+    },
+    {
+        "type": "menu",
+        "params": {
+            "orientation": "horizontal",
+            "dropdown": true
+        }
+    },
+    {
+        "type": "submenu",
+        "params": {
+            "orientation": "horizontal"
         }
     }
 ]
