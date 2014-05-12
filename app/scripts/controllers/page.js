@@ -11,6 +11,8 @@ angular.module('mfAngularApp').controller('PageCtrl', ['$scope', '$http', '$rout
     console.log($scope.cached);
     $scope.loaded = 1//$scope.containers.length > 0;
 
+	console.log($scope.site);
+	
     $scope.$on('site.update', function(e) {
         console.log('[PageCtrl] update check');
         console.log(DataService.site);
@@ -49,7 +51,8 @@ angular.module('mfAngularApp').controller('PageCtrl', ['$scope', '$http', '$rout
 
     $scope.$watchCollection('site', function(newData, oldData) {
         console.log('watching for site changes: [oldData/newData] ----------------');
-
+		console.log(oldData);
+		console.log(newData);
         console.log('-------------------------------------------------------------------');
     });
 

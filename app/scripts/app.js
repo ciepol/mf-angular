@@ -47,8 +47,17 @@ app.service('DataService', ['$rootScope','$http', '$routeParams', '$q', '$window
     var self = this;
     var _loadFromLocalStorage = function(name) {
         var s = angular.fromJson(localStorage[name]);
+		console.log('loaded form local storage');
         return [s.pages, s.css, s.containers];
     };
+	var _updateSiteVar = function(paramsArray) {
+		if (!dataService.site) {dataService.site = {}}
+		dataService.site.pages = paramsArray[0];
+		dataService.site.css = paramsArray[1];
+		dataService.site.containers = paramsArray[2];
+		console.log('updatd site var');
+		console.log(dataService.site);
+	};
     var dataService = {
         site: null,
         availableWidgets: null,
@@ -68,10 +77,7 @@ app.service('DataService', ['$rootScope','$http', '$routeParams', '$q', '$window
             //console.log(this.site);
             var s = _loadFromLocalStorage('MF');
             //console.log(this.site);
-            if (!this.site) {this.site = {}}
-            this.site.pages = s[0];
-            this.site.css = s[1];
-            this.site.containers = s[2];
+			_updateSiteVar(s);
             //console.log(this.site);
 
             //this.site = angular.fromJson(localStorage["MF"]);
@@ -79,10 +85,7 @@ app.service('DataService', ['$rootScope','$http', '$routeParams', '$q', '$window
         },
         loadCache: function() {
             var s = _loadFromLocalStorage('MF-CACHE');
-            if (!this.site) {this.site = {}}
-            this.site.pages = s[0];
-            this.site.css = s[1];
-            this.site.containers = s[2];
+            _updateSiteVar(s);
             //this.site = angular.fromJson(localStorage["MF-CACHE"]);
             dataService.cached = false;
             //$rootScope.$broadcast('site.update');
@@ -162,7 +165,8 @@ app.service('DataService', ['$rootScope','$http', '$routeParams', '$q', '$window
             }
 
             //$rootScope.$broadcast('site.update');
-            self.updateAndBroadcast();
+            //self.updateAndBroadcast();
+			_storeLocalCache();
         },
         removeContainer: function(position) {
             //remove from all pages
@@ -185,7 +189,8 @@ app.service('DataService', ['$rootScope','$http', '$routeParams', '$q', '$window
 
             this.site.containers[guid].widgets.splice(position, 0, widget);
             //$rootScope.$broadcast('site.update');
-            self.updateAndBroadcast();
+            //self.updateAndBroadcast();
+			_storeLocalCache();
         },
         removeWidget: function(containerIndex, widgetIndex) {
             var page = $routeParams.url;
@@ -193,13 +198,18 @@ app.service('DataService', ['$rootScope','$http', '$routeParams', '$q', '$window
             var guid = this.getContainerGuid(page, containerIndex);
             this.site.containers[guid].widgets.splice(widgetIndex, 1);
             //$rootScope.$broadcast('site.update');
-            self.updateAndBroadcast();
+            //self.updateAndBroadcast();
+			_storeLocalCache();
         }
     };
 
-    this.updateAndBroadcast = function() {
+    var _updateAndBroadcast = function() {
         localStorage["MF-CACHE"] = angular.toJson(dataService.site, true);
         $rootScope.$broadcast('site.update');
+    };
+	
+	var _storeLocalCache = function() {
+        localStorage["MF-CACHE"] = angular.toJson(dataService.site, true);
     }
 
     if (typeof localStorage['MF-CACHE'] !== 'undefined') {
@@ -210,11 +220,9 @@ app.service('DataService', ['$rootScope','$http', '$routeParams', '$q', '$window
     if (typeof localStorage['MF'] === 'undefined') {
         $http({method: 'GET', url: '/data/data.json'}).
             success(function (data, status, headers, config) {
-                dataService.site = data[0];
+				_updateSiteVar([data[0].pages, data[0].css, data[0].containers]);
                 console.log('site loaded from server');
-                console.log(dataService.site);
-                $rootScope.$broadcast('site.update');
-                $rootScope.$emit('site.update');
+				$rootScope.$broadcast('site.update');
             });
     } else {
         //by now localStorage is like server at production
@@ -254,13 +262,20 @@ app.controller('SiteCtrl', ['$rootScope', '$scope', '$routeParams', 'DataService
 
     $scope.$on('site.update', function(e) {
         console.log('[SiteCtrl] update check');
+		console.log('++');
+		console.log(typeof $scope.site);
+		console.log(typeof DataService.site);
+		console.log('-----');
+		$scope.site = DataService.site;
         //$scope.title = DataService.site.pages[$routeParams.url].name;
         //console.log('title: ' + $scope.title);
     });
 
     $scope.$on('$routeChangeSuccess', function(event, current) {
+		console.log('changing root params');
         if (typeof $routeParams.url !== 'undefined') {
-            $scope.title = DataService.site.pages[$routeParams.url].name;
+			//console.log(DataService.site);
+            //$scope.title = DataService.site.pages[$routeParams.url].name;
         } else {
             console.log('routeParams undefined!!!!');
         }
@@ -269,6 +284,13 @@ app.controller('SiteCtrl', ['$rootScope', '$scope', '$routeParams', 'DataService
     $scope.$watchCollection('$routeParams', function(newData, oldData) {
         console.log(newData);
 
+    });
+	
+	$scope.$watchCollection('site', function(newData, oldData) {
+        console.log('[SiteCtrl] watching for site changes: [oldData/newData] ----------------');
+		console.log(oldData);
+		console.log(newData);
+        console.log('-------------------------------------------------------------------');
     });
     console.log('++++++++++++++++++end SITE ++++++++++++++++++');
 }]);

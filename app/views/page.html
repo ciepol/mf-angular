@@ -2,7 +2,7 @@
 <div id="main">
     <container ng-repeat="containerGuid in site.pages[currentPage].containers"></container>
 </div>
-
+site: {{site}}
 <div id="load_spinner" ng-hide="loaded"><span>LOADING...</span></div>
 <div ng-if="cached" id="dialog_cached" class="ngdialog ngdialog-theme-default ngdialog-theme-custom">
     <div class="ngdialog-overlay"></div>
