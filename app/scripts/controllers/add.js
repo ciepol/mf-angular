@@ -5,14 +5,7 @@ angular.module('mfAngularApp').controller('AddCtrl', ['$scope', '$http', '$route
     $scope.editorMode = true;
     $scope.addMode = true;
     $scope.addType = 'page';
-    $scope.pages = DataService.getPages();
-    //$scope.containers = DataService.getContainers();
-    $scope.$on('site.update', function(e) {
-        console.log('apdejt!!!');
-        console.log(DataService.site);
-        $scope.pages = DataService.getPages();
-        //$scope.containers = DataService.getContainers();
-    });
+    //$scope.pages = DataService.getPages();
 
     $scope.widgets = [];
 
@@ -43,8 +36,6 @@ angular.module('mfAngularApp').controller('AddCtrl', ['$scope', '$http', '$route
         console.log('xx');
     }
 
-
-    console.log($routeParams);
     switch (Object.keys($routeParams).length) {
         case 1:
             //adding page after url

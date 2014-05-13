@@ -2,27 +2,10 @@
 
 angular.module('mfAngularApp').controller('PageCtrl', ['$scope', '$http', '$routeParams', '$location', 'DataService', 'ExtrasService', function ($scope, $http, $routeParams, $location,  DataService, ExtrasService) {
     $scope.editorMode = $location.path().search(/\/edit\/|\/add\//) == 0;
-    $scope.currentPage = $routeParams.url;
-    $scope.lang = 'pl_PL';
-    //$scope.site = DataService.site;
-    $scope.pages = DataService.getPages();
-    //$scope.containers = DataService.getContainers();
-    $scope.cached = DataService.cached;
-    console.log($scope.cached);
-    $scope.loaded = 1//$scope.containers.length > 0;
-
-	console.log($scope.site);
-	
-    $scope.$on('site.update', function(e) {
-        console.log('[PageCtrl] update check');
-        console.log(DataService.site);
-        //$scope.containers = DataService.getPages();
-        //$scope.containers = DataService.getContainers();
-        $scope.loaded = true;
-    });
+    //$scope.currentPage = $routeParams.url;
+    //$scope.pages = DataService.getPages();
 
     $scope.addContainer = function() {
-        //var position = $scope.containers.length;
         DataService.addContainer();
     };
 
@@ -32,6 +15,10 @@ angular.module('mfAngularApp').controller('PageCtrl', ['$scope', '$http', '$rout
 
     $scope.removeWidget = function(containerPosition, widgetPosition) {
         DataService.removeWidget(containerPosition, widgetPosition);
+    };
+
+    $scope.debugSite = function() {
+        DataService.debugSite();
     };
 
     $scope.saveSite = function() {

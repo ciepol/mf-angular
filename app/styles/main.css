@@ -82,7 +82,7 @@ a {
     border: 1px dotted #bbb;
 }
 
-.editor-menu {
+.editor-menu, .drag-handle {
     position: absolute;
     top: 0;
     left: 0;
@@ -91,7 +91,7 @@ a {
     width: 24px;
     height: 24px;
     text-indent: -29999px;
-    background: #fff url("/images/preferences-system.png") no-repeat center center;
+    background: #fff url(/images/preferences-system.png) no-repeat center center;
     overflow: hidden;
     z-index: 5;
 }
@@ -126,4 +126,34 @@ a {
 
 .widget-menu:hover {
     z-index: 6;
+}
+
+.ui-sortable-helper .widget-menu {
+    display: none;
+}
+
+.drag-handle {
+    top: auto;
+    left: auto;
+    right: 24px;
+    bottom: 0;
+    background-image: url(/images/arrow_cross.png) !important;
+    cursor: move;
+}
+
+.drag-placeholder {
+    background: rgba(0, 0, 0, 0.1);
+    outline: 2px dashed #9ec630;
+}
+
+.element-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.1);
+    cursor: move;
+    outline: 2px dashed #fff;
+    z-index: 2;
 }

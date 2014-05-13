@@ -43,7 +43,7 @@ app.service('ExtrasService', ['$rootScope', function($rootScope) {
 }]);
 
 
-app.service('DataService', ['$rootScope','$http', '$routeParams', '$q', '$window', 'ExtrasService', function($rootScope, $http, $routeParams, $q, $window, ExtrasService) {
+app.factory('DataService', ['$rootScope','$http', '$routeParams', '$q', '$window', 'ExtrasService', function($rootScope, $http, $routeParams, $q, $window, ExtrasService) {
     var self = this;
     var _loadFromLocalStorage = function(name) {
         var s = angular.fromJson(localStorage[name]);
@@ -61,13 +61,18 @@ app.service('DataService', ['$rootScope','$http', '$routeParams', '$q', '$window
     var dataService = {
         site: null,
         availableWidgets: null,
-        cached: false,
+        state: {
+            cached: false
+        },
         getAvailableWidgets: function() {
             /* to current page */
             return this.availableWidgets;
         },
         getContainerGuid: function(page, position) {
             return this.site.pages[page].containers[position];
+        },
+        debugSite: function() {
+          console.log(this.site);
         },
         saveSite: function() {
             localStorage["MF"] = angular.toJson(this.site, true);
@@ -87,14 +92,37 @@ app.service('DataService', ['$rootScope','$http', '$routeParams', '$q', '$window
             var s = _loadFromLocalStorage('MF-CACHE');
             _updateSiteVar(s);
             //this.site = angular.fromJson(localStorage["MF-CACHE"]);
-            dataService.cached = false;
+            this.setCached(false);
             //$rootScope.$broadcast('site.update');
         },
         setCached: function(bool) {
-            this.cached = bool;
+            this.state.cached = bool;
         },
         getSite: function() {
-            return this.site ? this.site : [];
+            // returns promise only because we want to know when JSON data from http is ready
+            // doesn't matter what exactly we return in it
+            var promise;
+            if (this.site) {
+                promise = $q.when(true);
+            } else {
+                if (typeof localStorage['MF'] === 'undefined') {
+                    promise = $http({method: 'GET', url: '/data/data.json'}).success(function (data) {
+                        console.log('getting site from JSON data');
+                        console.log(data[0]);
+                        _updateSiteVar([data[0].pages, data[0].css, data[0].containers]);
+                    });
+                } else {
+                    //by now localStorage is like server at production
+                    console.log('site loaded from server [* but server is in localStorage :P]');
+                    this.loadSite();
+                    promise = $q.when(true);
+                }
+            }
+            if (typeof localStorage['MF-CACHE'] !== 'undefined') {
+                console.log('cached site present');
+                this.setCached(true);
+            }
+            return promise;
         },
         getPages: function() {
             return this.site ? this.site.pages : [];
@@ -200,6 +228,33 @@ app.service('DataService', ['$rootScope','$http', '$routeParams', '$q', '$window
             //$rootScope.$broadcast('site.update');
             //self.updateAndBroadcast();
 			_storeLocalCache();
+        },
+        moveWidget: function(srcCoords, dstCoords) {
+            var page = $routeParams.url;
+
+            //copy
+            var guid = this.getContainerGuid(page, srcCoords[0]);
+            var widget = angular.copy(this.site.containers[guid].widgets[srcCoords[1]]);
+            console.log('copy done');
+
+            console.log(this.site.containers[guid].widgets.length);
+
+            //remove old
+            this.removeWidget(srcCoords[0], srcCoords[1]);
+            console.log('removed done');
+            console.log(this.site.containers[guid].widgets.length);
+            //console.log(this.site.containers[guid].widgets);
+            //console.log(this.site.containers);
+
+            //append
+            this.appendWidget(widget, dstCoords[0], dstCoords[1]);
+            //console.log(this.site.containers[guid].widgets);
+            //console.log(this.site.containers);
+            console.log(this.site.containers[guid].widgets.length);
+            console.log('widget: ');
+            console.log(widget);
+            console.log('moved from: ' + srcCoords  + ' to ' + dstCoords );
+            //$rootScope.$broadcast('site.update');
         }
     };
 
@@ -210,24 +265,6 @@ app.service('DataService', ['$rootScope','$http', '$routeParams', '$q', '$window
 	
 	var _storeLocalCache = function() {
         localStorage["MF-CACHE"] = angular.toJson(dataService.site, true);
-    }
-
-    if (typeof localStorage['MF-CACHE'] !== 'undefined') {
-        console.log('cached site present');
-        dataService.cached = true;
-    }
-
-    if (typeof localStorage['MF'] === 'undefined') {
-        $http({method: 'GET', url: '/data/data.json'}).
-            success(function (data, status, headers, config) {
-				_updateSiteVar([data[0].pages, data[0].css, data[0].containers]);
-                console.log('site loaded from server');
-				$rootScope.$broadcast('site.update');
-            });
-    } else {
-        //by now localStorage is like server at production
-        console.log('site loaded from server [* but server is in localStorage :P]');
-        dataService.loadSite();
     }
 
 
@@ -248,42 +285,38 @@ app.service('DataService', ['$rootScope','$http', '$routeParams', '$q', '$window
             return null;
         }
     };
-
+    console.log('just befeore returning dataService');
     return dataService;
 }]);
 
 app.controller('SiteCtrl', ['$rootScope', '$scope', '$routeParams', 'DataService', function($rootScope, $scope, $routeParams, DataService) {
-    console.log('++++++++++++++++++start SITE ++++++++++++++++++');
-    $scope.site = DataService.site;
-    console.log($scope.site);
-    console.log($routeParams);
+    $scope.state = DataService.state;
 
-    //$scope.title = DataService.site.pages[$routeParams.url].name;
+    $scope.loaded = false;
+    $scope.lang = 'pl_PL';
 
-    $scope.$on('site.update', function(e) {
-        console.log('[SiteCtrl] update check');
-		console.log('++');
-		console.log(typeof $scope.site);
-		console.log(typeof DataService.site);
-		console.log('-----');
-		$scope.site = DataService.site;
-        //$scope.title = DataService.site.pages[$routeParams.url].name;
-        //console.log('title: ' + $scope.title);
+    DataService.getSite().then(function (result) {
+        console.log('then promise:');
+        console.log(result);
+        $scope.site = DataService.site;
+        $scope.loaded = true;
+    }, function (result) {
+        console.log('error promise:');
     });
+    /*$rootScope.$on('site.update',function() {
+        console.log('boradcst received!!!!!!!!!!!!!!!!');
+        $scope.site = DataService.site;
+    });*/
+
 
     $scope.$on('$routeChangeSuccess', function(event, current) {
-		console.log('changing root params');
         if (typeof $routeParams.url !== 'undefined') {
-			//console.log(DataService.site);
-            //$scope.title = DataService.site.pages[$routeParams.url].name;
+            $scope.currentPage = $routeParams.url;
+            $scope.title = DataService.site.pages[$scope.currentPage].name;
+            //$scope.cached = DataService.cached;
         } else {
             console.log('routeParams undefined!!!!');
         }
-    });
-
-    $scope.$watchCollection('$routeParams', function(newData, oldData) {
-        console.log(newData);
-
     });
 	
 	$scope.$watchCollection('site', function(newData, oldData) {
@@ -292,22 +325,88 @@ app.controller('SiteCtrl', ['$rootScope', '$scope', '$routeParams', 'DataService
 		console.log(newData);
         console.log('-------------------------------------------------------------------');
     });
-    console.log('++++++++++++++++++end SITE ++++++++++++++++++');
 }]);
 
-app.directive('container', function() {
+app.directive('container', ['$rootScope', 'DataService', function($rootScope, DataService) {
     return {
         restrict: 'E',
         templateUrl: '/views/container.html',
-        replace: true
+        replace: true,
+        link: function(scope, element, attrs) {
+            var _getWidgetPosition = function(item) {
+                var container = item.parent('.container');
+                return $('.widget', container).index(item);
+            };
+            var _getWidgetContainerPosition = function(item) {
+                var container = item.parent('.container');
+                return $('#main .container').index(container);
+            };
+            var _getWidgetCoords = function(item) {
+                return [_getWidgetContainerPosition(item), _getWidgetPosition(item)];
+            };
+            var _setWidgetCoordsData = function(item) {
+                $.data(item, 'widgetCoords',_getWidgetCoords(item));
+            };
+            var _getWidgetCoordsData = function(item) {
+                return $.data(item, 'widgetCoords');
+            };
+            if (scope.editorMode) {
+                angular.element(element).sortable({
+                    connectWith: ".container",
+                    handle: ".drag-handle",
+                    placeholder: 'drag-placeholder',
+                    forcePlaceholderSize: true,
+                    start: function(event, ui) {
+                        _setWidgetCoordsData(ui.item);
+                    },
+                    /*stop: function(event, ui) {
+                    },*/
+                    update: function(event, ui) {
+
+                        if (!ui.sender) {
+                            //var srcCoords = ui.item.attr('id').replace('widget-', '').split('-');
+                            //array containing position [containerIndex, widgetIndex]
+
+                            //var newContainer = ui.item.parent('.container');
+                            //var newContainerIndex = newContainer.attr('id').replace('container-', '');
+
+                            //var dstWidgetPos = $('.widget', newContainer).index(ui.item);
+                            //console.log([newContainerIndex, dstWidgetPos]);
+
+                            console.log(_getWidgetCoordsData(ui.item));
+                            console.log(_getWidgetCoords(ui.item));
+
+                            DataService.moveWidget(_getWidgetCoordsData(ui.item), _getWidgetCoords(ui.item));
+                        }
+                    }
+                });
+            }
+        }
     }
-});
+}]);
 
 app.directive('widget', function() {
     return {
         restrict: 'E',
         templateUrl: '/views/widget.html',
         replace: true
+    }
+});
+app.directive('widgetSwitches', function() {
+    return {
+        restrict: 'E',
+        templateUrl: '/views/widgetswitches.html',
+        replace: true,
+        link: function(scope, element, attrs) {
+            var widget = $(element).parent('.widget');
+            if (scope.editorMode) {
+                $(element).hover(function() {
+                    widget.append('<div class="element-overlay" />');
+                }, function() {
+                    $('.element-overlay', widget).remove();
+                });
+            }
+        }
     }
 });
 
