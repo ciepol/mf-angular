@@ -27,14 +27,7 @@ angular.module('mfAngularApp').controller('PageCtrl', ['$scope', '$http', '$rout
     $scope.loadSite = function() {
         DataService.loadSite();
     };
-    $scope.loadCache = function() {
-        $('#dialog_cached').remove();
-        DataService.loadCache();
-    };
-    $scope.closeCacheDialog = function() {
-        $('#dialog_cached').remove();
-        DataService.setCached(false);
-    };
+
 
     $scope.$watchCollection('site', function(newData, oldData) {
         console.log('watching for site changes: [oldData/newData] ----------------');

@@ -1,0 +1,10 @@
+<div class="switches-wrapper container-switches-wrapper">
+    <div class="mf-menu-wrapper">
+        <span class="mf-switch mf-menu-switch"></span>
+        <ul class="mf-menu">
+            <li class="green"><a href="/add/{{lang}}/{{currentPage}}/{{$index}}/{{site.containers[containerGuid].widgets.length}}">Add widget!</a></li>
+            <li><hr /></li>
+            <li><button class="red" ng-click="removeContainer($index)">Remove container {{$index}}</button></li>
+        </ul>
+    </div>
+</div>

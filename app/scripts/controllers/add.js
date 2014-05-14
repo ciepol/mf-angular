@@ -34,18 +34,18 @@ angular.module('mfAngularApp').controller('AddCtrl', ['$scope', '$http', '$route
         console.log('xx');
         $location.path('edit/' + $routeParams.url);
         console.log('xx');
-    }
+    };
 
     switch (Object.keys($routeParams).length) {
-        case 1:
+        case 2:
             //adding page after url
             //$scope.addType = 'page'; //already set
             break;
-        case 2:
+        case 3:
             //adding container at given position
             $scope.addType = 'container';
             break;
-        case 3:
+        case 4:
             //adding widget at given position
             $scope.addType = 'widget';
             break;

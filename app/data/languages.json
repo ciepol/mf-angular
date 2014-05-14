@@ -1,0 +1,19 @@
+[
+    {
+        "pl": {
+            "code": "pl",
+            "name": "polski",
+            "go_to_editor": "Przejdź do trybu edycji"
+        },
+        "gb": {
+            "code": "gb",
+            "name": "english",
+            "go_to_editor": "Switch to editor mode"
+        },
+        "cz": {
+            "code": "cz",
+            "name": "czesky",
+            "go_to_editor": "Do edytorku teraz!"
+        }
+    }
+]

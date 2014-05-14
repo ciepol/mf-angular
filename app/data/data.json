@@ -1,6 +1,11 @@
 [
     {
         "css" : "",
+        "languages": [
+            "pl",
+            "gb",
+            "cz"
+        ],
         "pages": {
             "home": {
                 "name": "Strona domowa",
@@ -37,12 +42,7 @@
                 "widgets": [
                     {
                         "type": "menu",
-                        "pl_PL": {
-                            "content": "Tutaj będzie menu?"
-                        },
-                        "en_GB": {
-                            "content": "Here will be menu?"
-                        }
+                        "orientation": "horizontal"
                     }
                 ]
             },
@@ -52,43 +52,53 @@
                 "widgets": [
                     {
                         "type": "text",
-                        "pl_PL": {
+                        "pl": {
                             "content": "Lorem ipsum"
                         },
-                        "en_GB": {
-                            "content": "Lorem ipsum"
+                        "gb": {
+                            "content": "GB lorem"
+                        },
+                        "cz": {
+                            "content": "Czesky tekstik!"
                         }
                     },
                     {
                         "type": "image",
                         "src": "/images/mf.jpg",
-                        "pl_PL": {
+                        "pl": {
                             "alt": "Obrazek bez linka"
                         },
-                        "en_GB": {
+                        "gb": {
                             "alt": "Picture with no anchor"
+                        },
+                        "cz": {
+                            "alt": "Czesky obrazicek bez lineczka"
                         }
-
                     },
                     {
                         "type": "image",
                         "link": "http://mamfirme.pl",
                         "src": "/images/mf.jpg",
-                        "pl_PL": {
+                        "pl": {
                             "alt": "Znów obrazek"
                         },
-                        "en_GB": {
+                        "gb": {
                             "alt": "Picture again"
+                        },
+                        "cz": {
+                            "alt": "Czesky obrazicek"
                         }
-
                     },
                     {
                         "type": "button",
-                        "pl_PL": {
+                        "pl": {
                             "content": "Guzik jaki."
                         },
-                        "en_GB": {
+                        "gb": {
                             "content": "Some button."
+                        },
+                        "cz": {
+                            "content": "Jaki czeski guzik"
                         }
                     }
                 ]
@@ -99,11 +109,14 @@
                 "widgets": [
                     {
                         "type": "text",
-                        "pl_PL": {
+                        "pl": {
                             "content": "Tekst na stronie domowej"
                         },
-                        "en_GB": {
+                        "gb": {
                             "content": "Text on homepage"
+                        },
+                        "cz": {
+                            "content": "Czesky tekst"
                         }
                     }
                 ]
@@ -114,11 +127,14 @@
                 "widgets": [
                     {
                         "type": "text",
-                        "pl_PL": {
+                        "pl": {
                             "content": "Tekst na stronie numero uno"
                         },
-                        "en_GB": {
+                        "gb": {
                             "content": "Text on numero uno page"
+                        },
+                        "cz": {
+                            "content": "Czesky tekst na pierszei stroniczce"
                         }
                     }
                 ]
@@ -129,11 +145,14 @@
                 "widgets": [
                     {
                         "type": "text",
-                        "pl_PL": {
+                        "pl": {
                             "content": "Zawartość cennika"
                         },
-                        "en_GB": {
+                        "gb": {
                             "content": "Price list content"
+                        },
+                        "cz": {
+                            "content": "Czesky cenniczek"
                         }
                     }
                 ]

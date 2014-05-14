@@ -1,10 +1,10 @@
-<div class="menu-wrapper">
-    <div class="drag-handle"></div>
-    <div class="editor-menu widget-menu">
-        Widget type: {{widget.type}}<br />
-        indx: {{$index}}<br />
-        containerIndex: {{containerIndex}}
-        <hr />
-        <button class="btn-add-widget btn btn-danger btn-xs" ng-click="removeWidget(containerIndex, $index)">Remove widget</button>
+<div class="switches-wrapper widget-switches-wrapper">
+    <span class="mf-switch drag-handle"></span>
+    <div class="mf-menu-wrapper">
+        <span class="mf-switch mf-menu-switch"></span>
+        <ul class="mf-menu">
+            <li><hr /></li>
+            <li class="red"><button ng-click="removeWidget(containerIndex, $index)">Remove widget</button></li>
+        </ul>
     </div>
 </div>

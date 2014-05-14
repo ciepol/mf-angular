@@ -4,3 +4,4 @@ node_modules
 .sass-cache
 app/bower_components
 app/images/Thumbs.db
+app/images/flags/16/Thumbs.db
