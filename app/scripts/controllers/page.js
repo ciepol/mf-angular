@@ -21,6 +21,10 @@ angular.module('mfAngularApp').controller('PageCtrl', ['$scope', '$http', '$rout
         DataService.debugSite();
     };
 
+    $scope.clearLocal = function() {
+        DataService.clearLocal();
+    };
+
     $scope.saveSite = function() {
         DataService.saveSite();
     };

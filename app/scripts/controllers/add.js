@@ -25,14 +25,17 @@ angular.module('mfAngularApp').controller('AddCtrl', ['$scope', '$http', '$route
         var prototype = $scope.widgets[newWidgetIndex];
 
         var widget = {
-            "type": prototype.type,
-            "pl_PL": prototype.langs //TODO: for loop for all languages
+            "type": prototype.type
         };
+        for (var l in $scope.site.languages) {
+            widget[$scope.site.languages[l]] = prototype.langs;
+        };
+
         angular.extend(widget, prototype.params);
         console.log(widget);
         DataService.appendWidget(widget, containerId, position);
         console.log('xx');
-        $location.path('edit/' + $routeParams.url);
+        $location.path('edit/' + $routeParams.lang + '/' + $routeParams.url);
         console.log('xx');
     };
 

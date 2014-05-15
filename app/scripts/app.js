@@ -158,6 +158,11 @@ app.factory('DataService', ['$rootScope', '$http', '$route', '$routeParams', '$q
         setCached: function(bool) {
             this.state.cached = bool;
         },
+        clearLocal: function() {
+            localStorage.removeItem("MF");
+            localStorage.removeItem("MF-CACHE");
+            console.log('localStorage cleared');
+        },
         getSite: function() {
             // returns promise only because we want to know when JSON data from http is ready
             // doesn't matter what exactly we return in it
