@@ -2,21 +2,38 @@
 
 angular.module('mfAngularApp').controller('AddCtrl', ['$scope', '$http', '$routeParams', '$location', 'DataService', 'ExtrasService', function ($scope, $http, $routeParams, $location, DataService, ExtrasService) {
     //$scope.currentPage = $routeParams.url;
-    $scope.editorMode = true;
+    //$scope.editorMode = true;
     $scope.addMode = true;
     $scope.addType = 'page';
     //$scope.pages = DataService.getPages();
 
-    $scope.widgets = [];
+    $scope.availableWidgets = [];
 
     $http({method: 'GET', url: '/data/widgets.json'}).
         success(function(data, status, headers, config) {
             console.log('---http-----');
-            $scope.widgets = data;
-            console.log($scope.widgets)
+            $scope.availableWidgets = data;
+            console.log($scope.availableWidgets)
         });
 
-    $scope.addWidget = function(newWidgetIndex) {
+    $scope.addWidget = function(widgetTypeIndex) {
+        var containerIndex = $routeParams.container;
+
+        var source = $scope.availableWidgets[widgetTypeIndex];
+        var widget = {
+            "type": source.type
+        };
+        for (var l in $scope.site.languages) {
+            widget[$scope.site.languages[l]] = source.langs;
+        };
+        angular.extend(widget, source.params);
+        console.log('widget:');
+        console.log(widget);
+
+        DataService.appendWidget(containerIndex, widget, $scope.currentPage);
+        $location.path('/edit/' + $scope.currentLang + '/' + $scope.currentPage);
+    };
+    /*$scope.addWidget = function(newWidgetIndex) {
         var containerId = $routeParams.container;
         var position = $routeParams.widget;
         console.log('adding widget: ' + newWidgetIndex);
@@ -37,7 +54,7 @@ angular.module('mfAngularApp').controller('AddCtrl', ['$scope', '$http', '$route
         console.log('xx');
         $location.path('edit/' + $routeParams.lang + '/' + $routeParams.url);
         console.log('xx');
-    };
+    };*/
 
     switch (Object.keys($routeParams).length) {
         case 2:
@@ -53,6 +70,6 @@ angular.module('mfAngularApp').controller('AddCtrl', ['$scope', '$http', '$route
             $scope.addType = 'widget';
             break;
         default:
-            console.error('[ADD] wrong params!!');
+            throw '[ADD] wrong params!!';
     }
 }]);

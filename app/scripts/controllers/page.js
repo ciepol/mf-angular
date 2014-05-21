@@ -1,7 +1,18 @@
 'use strict';
 
 angular.module('mfAngularApp').controller('PageCtrl', ['$scope', '$http', '$routeParams', '$location', 'DataService', 'ExtrasService', function ($scope, $http, $routeParams, $location,  DataService, ExtrasService) {
-    $scope.editorMode = $location.path().search(/\/edit\/|\/add\//) == 0;
+    $scope.containers = DataService.getContainers($scope.currentPage);
+    /*DataService.init().then(function(data) {
+        console.log('[PageCtrl] getting containers after init()');
+        $scope.containers = DataService.getContainers($scope.currentPage);
+    });*/
+    $scope.addContainer = function() {
+        DataService.addContainer();
+    };
+
+
+
+    /*$scope.editorMode = $location.path().search(/\/edit\/|\/add\//) == 0;
     //$scope.currentPage = $routeParams.url;
     //$scope.pages = DataService.getPages();
 
@@ -38,7 +49,7 @@ angular.module('mfAngularApp').controller('PageCtrl', ['$scope', '$http', '$rout
 		console.log(oldData);
 		console.log(newData);
         console.log('-------------------------------------------------------------------');
-    });
+    });*/
 
 
     /*$scope.$watchCollection('containers', function(newData, oldData) {

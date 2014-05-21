@@ -2,9 +2,11 @@
     <div class="mf-menu-wrapper">
         <span class="mf-switch mf-menu-switch"></span>
         <ul class="mf-menu">
-            <li class="green"><a href="/add/{{lang}}/{{currentPage}}/{{$index}}/{{site.containers[containerGuid].widgets.length}}">Add widget!</a></li>
+            <li ng-if="container.layout"><button ng-click="setAsCustomContainer()">Set as page container</button></li>
+            <li><button ng-click="switchRow()">Switch to {{container.row ? 'column' : 'row'}}</button></li>
+            <li class="green"><a href="/add/{{currentLang}}/{{currentPage}}/{{$index}}/{{container.widgets.length}}">Add widget!</a></li>
             <li><hr /></li>
-            <li><button class="red" ng-click="removeContainer($index)">Remove container {{$index}}</button></li>
+            <li class="red"><button ng-click="removeContainer()">Remove container {{$index}}</button></li>
         </ul>
     </div>
 </div>

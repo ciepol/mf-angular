@@ -1,6 +1,13 @@
-<div class="container container-{{site.containers[containerGuid].type}}">
-    <div ng-if="editorMode" ng-include="'/views/containerswitches.html'"></div>
-    <widget ng-repeat="widget in site.containers[containerGuid].widgets"></widget>
-    <a href="/add/{{lang}}/{{currentPage}}/{{$index}}/0" class="btn-add-widget btn btn-primary"
-       ng-if="editorMode && !site.containers[containerGuid].widgets.length">Add widgets!</a>
+<div class="container container-{{container.type}}" ng-class="{'container-custom': !container.layout}" ng-controller="ContainerCtrl as containerCtrl">
+    <container-switches ng-if="settings.editorMode"></container-switches>
+
+    <widget ng-repeat="widget in container.widgets track by widget.guid"></widget>
+    <!--   ^^ ng-if="!container.nestable" -->
+
+
+    <!--container ng-if="!container.layout" ng-repeat="pcontainer in site.pages[currentPage].containers track by pcontainer.guid"></container-->
+    <!--div ng-if="container.nestable" ng-repeat="pcontainer in site.pages[currentPage].containers track by pcontainer.guid">{{pcontainer}}</div-->
+
+    <a href="/add/{{currentLang}}/{{currentPage}}/{{$index}}/0" class="add-widget"
+       ng-if="settings.editorMode && !container.widgets.length">Add widgets!</a>
 </div>

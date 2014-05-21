@@ -1,7 +1,7 @@
 <nav class="menu menu-{{widget.orientation}}">
     <ul>
         <li ng-repeat="page in site.pages">
-            <a href="{{editorMode ? '/edit' : ''}}/{{lang}}/{{page.url}}">{{page.name}}</a>
+            <a href="{{settings.editorMode ? '/edit' : ''}}/{{currentLang}}/{{page.url}}">{{page.name}}</a>
         </li>
     </ul>
 </nav>

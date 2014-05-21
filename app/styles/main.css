@@ -26,7 +26,7 @@ a {
     background: #829db9;
 }
 
-.mf-menu > .green:hover {
+.mf-menu > .active, .mf-menu > .green:hover {
     background: #4e9a06;
 }
 
@@ -58,10 +58,15 @@ a {
     color: #e6584d;
 }
 
+.mf-menu > .active > button, .mf-menu > .active > a {
+    color: #fff;
+}
+
 .mf-menu > li:hover > button, .mf-menu > li:hover > a {
     color: #fff;
     text-decoration: none;
 }
+
 
 .mf-menu > li > hr {
     margin: 6px 0;
@@ -151,6 +156,7 @@ a {
 }
 
 .container {
+    clear: both;
     position: relative;
     width: auto;
     margin: 0;
@@ -159,16 +165,19 @@ a {
     border: 1px solid #333;
 }
 
-.container-sidebar {
-    float:left;
-    width: 30%;
+.container-column {
+    float: left;
+    width: 250px;
     background: #ddd;
 }
 
-.container-body {
-    float: right;
-    width: 70%;
+.container-column + .container {
+    margin-left: 250px;
     background: #e5e5e5;
+}
+
+.container-custom {
+    background: #ccc;
 }
 
 .container-footer {
@@ -242,4 +251,33 @@ a {
     cursor: move;
     outline: 2px dashed #fff;
     z-index: 2;
+}
+
+.add-widget {
+    display: block;
+    width: 200px;
+    margin: 0 auto;
+    padding: 2px 2px 2px 22px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    background: url(/imges/layout_add.png) no-repeat 3px center;
+    border: 1px dotted;
+}
+
+#mf-debug {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+}
+
+#mf-debug .CodeMirror {
+    height: 100%;
+    width: 960px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.9);
 }

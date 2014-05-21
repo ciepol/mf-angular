@@ -19,13 +19,13 @@
         <li class="mf-menu-wrapper" id="top-belt-language">
             <span>Language</span>
             <ul class="mf-menu top-belt-menu">
-                <li ng-repeat="language in site.languages">
+                <li ng-repeat="language in site.languages" ng-class="{active: language == currentLang}">
                     <a ng-href="/edit/{{language}}/{{currentPage}}"
-                     ng-style="{'background-image': 'url(/images/flags/16/'+ language + '.png)'}">{{editorData.languages[language].name}}</a>
+                     ng-style="{'background-image': 'url(/images/flags/16/'+ language + '.png)'}">{{availableLanguages[language].name}}</a>
                 </li>
             </ul>
         </li>
-        <a href="/{{lang}}/{{currentPage}}">Preview</a>
+        <a href="/{{currentLang}}/{{currentPage}}">Preview</a>
         <a href="https://github.com/ciepol/mf-angular" target="_blank">See on GitHub</a>
     </ul>
 </nav>

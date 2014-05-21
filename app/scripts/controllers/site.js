@@ -1,7 +1,63 @@
 'use strict';
 
-angular.module('mfAngularApp').controller('SiteCtrl', ['$rootScope', '$scope', '$routeParams', 'DataService', 'EditorDataService', function($rootScope, $scope, $routeParams, DataService, EditorDataService) {
-    $scope.state = DataService.state;
+angular.module('mfAngularApp').controller('SiteCtrl', ['$rootScope', '$scope', '$location','$routeParams', '$http', 'DataService', function($rootScope, $scope, $location, $routeParams, $http, DataService) {
+    //$scope.settings = {};
+    $scope.availableLanguages = {};
+
+    //$scope.site = DataService.getSite();
+
+    /*DataService.init().then(function(data) {
+        console.log('[SiteCtrl] getting site after init()');
+        $scope.site = DataService.getSite();
+    });*/
+
+    /*$http.get('/data/data.json').success(function(data) {
+        $scope.site = data[0];
+    }).error(function(data, status) {
+        alert('Error loading data.jsnon:\ndata: ' + data + '\nstatus:' + status);
+    });*/
+    $http.get('/data/languages.json').success(function(data) {
+        $scope.availableLanguages = data[0];
+    }).error(function(data, status) {
+        alert('Error loading languages.jsnon:\ndata: ' + data + '\nstatus:' + status);
+    });
+
+    /*$scope.$on('$routeChangeSuccess', function(event, current) {
+        if (typeof $routeParams.url !== 'undefined') {
+            $scope.site = DataService.getSite();
+            console.log('route change');
+            console.log($scope.site);
+            $scope.settings.editorMode = $location.path().search(/\/edit\/|\/add\//) == 0;
+            $scope.currentPage = $routeParams.url;
+            $scope.currentLang = $routeParams.lang;
+            $scope.title = $scope.site.pages[$scope.currentPage].name;
+            //$scope.cached = DataService.cached;
+        } else {
+            console.log('routeParams undefined!!!!');
+        }
+    });*/
+
+    $scope.debugSite = function() {
+        $('body').append('<div id="mf-debug"><textarea>' + JSON.stringify($scope.site, null, 4) + '</textarea></div>');
+        $('#mf-debug').click(function() {
+            $(this).remove();
+        });
+        var editor = CodeMirror.fromTextArea($("#mf-debug > textarea")[0], {
+            mode: "application/ld+json",
+            lineWrapping: true
+        });
+        console.log($scope.site);
+    };
+
+    $scope.$watchCollection('site', function(newData, oldData) {
+        console.log('[SiteCtrl] watching for site changes: [oldData/newData] ----------------');
+        console.log(oldData);
+        console.log(newData);
+        console.log('-------------------------------------------------------------------');
+    });
+
+
+    /*$scope.state = DataService.state;
     $scope.lang = 'pl_PL';
 
     EditorDataService.getAllData().then(function() {
@@ -45,7 +101,7 @@ angular.module('mfAngularApp').controller('SiteCtrl', ['$rootScope', '$scope', '
         $('#dialog_cached').remove();
         DataService.setCached(false);
         //$scope.state = DataService.state;
-    };
+    };*/
 
     /*$scope.setLang = function(lang) {
         EditorDataService.setLang(lang);

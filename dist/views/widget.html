@@ -1,1 +1,1 @@
-<div class="widget"><div ng-include="'/views/widgets/' + widget.type + '.html'"></div><widget-switches ng-if="editorMode"></widget-switches></div>
+<div class="widget" ng-controller="WidgetCtrl as widgetCtrl"><div ng-include="'/views/widgets/' + widget.type + '.html'"></div><widget-switches ng-if="settings.editorMode"></widget-switches></div>
